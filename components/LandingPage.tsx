@@ -1,16 +1,18 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight, Boxes, CheckCircle2, CircleDot, CloudCog, Eye, LayoutGrid,
-  MonitorSmartphone, QrCode, RotateCw, ScanLine, ShoppingBasket, Smartphone,
+  MonitorSmartphone, Puzzle, QrCode, RotateCw, ScanLine, ShoppingBasket, Smartphone,
   Store, Touchpad, UserRoundCheck, Workflow
 } from "lucide-react";
 import type { Locale, SiteContent } from "@/lib/content";
 import { Navbar } from "./Navbar";
 import { Reveal } from "./Reveal";
 import { LeadForm } from "./LeadForm";
+import { RvmScrollFrames } from "./RvmScrollFrames";
 
 const iconMap = {
   layout: LayoutGrid,
@@ -25,8 +27,15 @@ const iconMap = {
   control: Smartphone
 };
 
+// Fixed order matching content.ts rvm.specs / journey.steps arrays (same
+// length and order in every locale), so icons don't need to live in the
+// translated content data.
+const specIcons = [Store, Boxes, ScanLine, Touchpad, Eye, Puzzle];
+const journeyIcons = [ScanLine, CircleDot, CheckCircle2];
+
 export function LandingPage({ locale, content }: { locale: Locale; content: SiteContent }) {
   const reduce = useReducedMotion();
+  const productExplorerRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -103,9 +112,9 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
               <h2>{content.rvm.title}</h2>
               <p>{content.rvm.description}</p>
             </Reveal>
-            <div className="product-explorer">
+            <div className="product-explorer" ref={productExplorerRef}>
               <div className="sticky-product">
-                <Image src="/images/rvm-product.png" alt="Retearn compact RVM product" width={1086} height={1448} />
+                <RvmScrollFrames containerRef={productExplorerRef} />
                 <div className="product-halo" aria-hidden="true" />
               </div>
               <div className="product-features">
@@ -127,7 +136,18 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
 
             <Reveal className="spec-panel">
               <div><p className="eyebrow light">SPEC</p><h3>{content.rvm.specsTitle}</h3></div>
-              <div className="spec-grid">{content.rvm.specs.map(spec => <div key={spec.label}><span>{spec.label}</span><strong>{spec.value}</strong></div>)}</div>
+              <div className="spec-grid">
+                {content.rvm.specs.map((spec, index) => {
+                  const Icon = specIcons[index];
+                  return (
+                    <div key={spec.label}>
+                      <Icon size={22} />
+                      <span>{spec.label}</span>
+                      <strong>{spec.value}</strong>
+                    </div>
+                  );
+                })}
+              </div>
               <p className="spec-disclaimer">{content.rvm.disclaimer}</p>
               <a className="button button-light" href="#meeting">{content.rvm.cta}<ArrowRight size={18} /></a>
             </Reveal>
@@ -163,9 +183,17 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
           <div className="container">
             <Reveal className="section-heading narrow"><h2>{content.journey.title}</h2></Reveal>
             <div className="journey-grid">
-              {content.journey.steps.map((step, index) => (
-                <Reveal key={step.number} delay={index * .08} className="journey-card"><span>{step.number}</span><h3>{step.title}</h3><p>{step.text}</p></Reveal>
-              ))}
+              {content.journey.steps.map((step, index) => {
+                const Icon = journeyIcons[index];
+                return (
+                  <Reveal key={step.number} delay={index * .08} className="journey-card">
+                    <Icon size={30} className="journey-icon" />
+                    <span>{step.number}</span>
+                    <h3>{step.title}</h3>
+                    <p>{step.text}</p>
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         </section>
