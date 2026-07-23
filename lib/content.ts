@@ -34,7 +34,7 @@ export type SiteContent = {
     label: string;
     title: string;
     description: string;
-    features: Array<{ number: string; title: string; subtext?: string; text: string; icon: "scan" | "inlet" | "screen" | "voucher" | "monitor" }>;
+    features: Array<{ number: string; title: string; text: string; icon: "scan" | "inlet" | "screen" | "voucher" | "monitor" }>;
     specsTitle: string;
     specs: Array<{ label: string; value: string }>;
     cta: string;
@@ -147,7 +147,7 @@ export const content: Record<Locale, SiteContent> = {
         { number: "01", title: "Skaner QR 360°", text: "Kod może zostać odczytany z różnych kierunków bez dokładnego ustawiania opakowania.", icon: "scan" },
         { number: "02", title: "Jedno miejsce zwrotu", text: "Podświetlony otwór pomaga klientowi szybko zrozumieć, gdzie umieścić opakowanie.", icon: "inlet" },
         { number: "03", title: "Wskazówki na ekranie", text: "Interfejs prowadzi użytkownika od rozpoczęcia do zakończenia zwrotu.", icon: "screen" },
-        { number: "04", title: "Natychmiastowy kupon nagrody", subtext: "Drukowany od razu po zakończeniu zwrotu", text: "Klient otrzymuje wydrukowany kupon do wykorzystania przy kasie lub w aplikacji.", icon: "voucher" },
+        { number: "04", title: "Natychmiastowy kupon nagrody", text: "Kupon drukuje się natychmiast po zakończeniu zwrotu, gotowy do wykorzystania przy kasie lub w aplikacji.", icon: "voucher" },
         { number: "05", title: "Połączony monitoring", text: "Sprawdzaj stan urządzenia, aktywność i poziom zapełnienia zdalnie.", icon: "monitor" }
       ],
       specsTitle: "Potwierdzone informacje o produkcie",
@@ -288,7 +288,7 @@ export const content: Record<Locale, SiteContent> = {
         { number: "01", title: "360° QR scanner", text: "Read codes from different directions without carefully aligning the container.", icon: "scan" },
         { number: "02", title: "One clear return inlet", text: "The illuminated opening makes it clear where the customer should place the container.", icon: "inlet" },
         { number: "03", title: "On-screen guidance", text: "The interface guides customers from starting to completing the return.", icon: "screen" },
-        { number: "04", title: "Instant reward voucher", subtext: "Printed the moment the return completes", text: "Customers receive a printed voucher to redeem at checkout or in the app.", icon: "voucher" },
+        { number: "04", title: "Instant reward voucher", text: "A voucher prints the moment the return completes, ready to redeem at checkout or in the app.", icon: "voucher" },
         { number: "05", title: "Connected monitoring", text: "View machine status, activity and capacity remotely.", icon: "monitor" }
       ],
       specsTitle: "Confirmed product information",

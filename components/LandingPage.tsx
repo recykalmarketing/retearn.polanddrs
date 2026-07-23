@@ -136,9 +136,8 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
                   return (
                     <Reveal key={feature.number} className="product-feature-card">
                       <div className="feature-number">{feature.number}</div>
-                      <Icon size={32} />
+                      <Icon size={22} />
                       <h3>{feature.title}</h3>
-                      {feature.subtext && <span className="feature-subtext">{feature.subtext}</span>}
                       <p>{feature.text}</p>
                       {visual && <Image className="micro-visual" src={visual.src} alt={visual.alt} width={visual.width} height={visual.height} />}
                     </Reveal>
