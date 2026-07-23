@@ -135,11 +135,17 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
                   const visual = featureVisuals[index];
                   return (
                     <Reveal key={feature.number} className="product-feature-card">
-                      <div className="feature-number">{feature.number}</div>
-                      <Icon size={22} />
-                      <h3>{feature.title}</h3>
-                      <p>{feature.text}</p>
-                      {visual && <Image className="micro-visual" src={visual.src} alt={visual.alt} width={visual.width} height={visual.height} />}
+                      <div className="feature-text">
+                        <div className="feature-number">{feature.number}</div>
+                        <Icon size={20} />
+                        <h3>{feature.title}</h3>
+                        <p>{feature.text}</p>
+                      </div>
+                      {visual && (
+                        <div className="feature-visual">
+                          <Image src={visual.src} alt={visual.alt} width={visual.width} height={visual.height} />
+                        </div>
+                      )}
                     </Reveal>
                   );
                 })}
