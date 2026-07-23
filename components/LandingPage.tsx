@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight, Boxes, CheckCircle2, CircleDot, CloudCog, Eye, LayoutGrid,
-  MonitorSmartphone, Puzzle, QrCode, RotateCw, ScanLine, ShoppingBasket, Smartphone,
+  MonitorSmartphone, Puzzle, QrCode, Receipt, RotateCw, ScanLine, ShoppingBasket, Smartphone,
   Store, Touchpad, UserRoundCheck, Workflow
 } from "lucide-react";
 import type { Locale, SiteContent } from "@/lib/content";
@@ -22,6 +22,7 @@ const iconMap = {
   scan: ScanLine,
   inlet: CircleDot,
   screen: Touchpad,
+  voucher: Receipt,
   return: RotateCw,
   automation: Workflow,
   control: Smartphone
@@ -32,10 +33,17 @@ const iconMap = {
 // translated content data.
 const specIcons = [Store, Boxes, ScanLine, Touchpad, Eye, Puzzle];
 const journeyIcons = [ScanLine, CircleDot, CheckCircle2];
+const featureVisuals = [
+  { src: "/images/qr-scanner.png", alt: "Close-up of the Retearn RVM's 360-degree QR scanner array", width: 1254, height: 1254 },
+  { src: "/images/return-inlet.png", alt: "Top-down view of the illuminated return inlet", width: 1254, height: 1254 },
+  { src: "/images/on-screen-guidance.png", alt: "RVM touchscreen showing return guidance", width: 1254, height: 1254 },
+  { src: "/images/reward-voucher.png", alt: "Printed reward voucher dispensing from the RVM", width: 1254, height: 1254 },
+  { src: "/images/dashboard-placeholder.svg", alt: "Connected monitoring dashboard placeholder", width: 1200, height: 900 }
+];
 
 export function LandingPage({ locale, content }: { locale: Locale; content: SiteContent }) {
   const reduce = useReducedMotion();
-  const productExplorerRef = useRef<HTMLDivElement>(null);
+  const productFeaturesRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -90,9 +98,13 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
             </Reveal>
             <div className="retail-fit-grid">
               <Reveal className="floor-plan-card">
-                <div className="floor-grid" aria-hidden="true"><span className="zone entrance">Entrance</span><span className="zone aisle">Aisle end</span><span className="zone checkout">Checkout</span></div>
-                <Image src="/images/rvm-product.png" alt="Retearn RVM placement illustration" width={1086} height={1448} />
-                <div className="placement-caption">{locale === "pl" ? "Wizualizacja miejsca — zastąp planem sklepu" : "Placement visual — replace with store plan"}</div>
+                <Image
+                  src="/images/small-retail-store.png"
+                  alt="Customer returning a container at a Retearn RVM inside a small convenience store"
+                  fill
+                  sizes="(max-width: 1080px) 100vw, 45vw"
+                  style={{ objectFit: "cover" }}
+                />
               </Reveal>
               <div className="feature-list">
                 {content.smallRetail.items.map((item, index) => {
@@ -112,22 +124,23 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
               <h2>{content.rvm.title}</h2>
               <p>{content.rvm.description}</p>
             </Reveal>
-            <div className="product-explorer" ref={productExplorerRef}>
+            <div className="product-explorer">
               <div className="sticky-product">
-                <RvmScrollFrames containerRef={productExplorerRef} />
+                <RvmScrollFrames containerRef={productFeaturesRef} />
                 <div className="product-halo" aria-hidden="true" />
               </div>
-              <div className="product-features">
+              <div className="product-features" ref={productFeaturesRef}>
                 {content.rvm.features.map((feature, index) => {
                   const Icon = iconMap[feature.icon];
+                  const visual = featureVisuals[index];
                   return (
                     <Reveal key={feature.number} className="product-feature-card">
                       <div className="feature-number">{feature.number}</div>
                       <Icon size={32} />
                       <h3>{feature.title}</h3>
+                      {feature.subtext && <span className="feature-subtext">{feature.subtext}</span>}
                       <p>{feature.text}</p>
-                      {index === 0 && <Image className="micro-visual" src="/images/qr-scanner-placeholder.svg" alt="360 degree QR scanner visual placeholder" width={1200} height={900} />}
-                      {index === 3 && <Image className="micro-visual" src="/images/dashboard-placeholder.svg" alt="Connected monitoring dashboard placeholder" width={1200} height={900} />}
+                      {visual && <Image className="micro-visual" src={visual.src} alt={visual.alt} width={visual.width} height={visual.height} />}
                     </Reveal>
                   );
                 })}

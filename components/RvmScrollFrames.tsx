@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type RefObject } from "react";
-import { useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 
 const FRAME_COUNT = 102;
 const framePath = (i: number) => `/videos/rvm-frames/frame_${String(i).padStart(4, "0")}.webp`;
@@ -11,12 +11,17 @@ export function RvmScrollFrames({ containerRef }: { containerRef: RefObject<HTML
   const loadedRef = useRef<Set<number>>(new Set());
   const reduce = useReducedMotion();
 
+  // Rotation starts exactly when the first feature card's top reaches the top
+  // of the viewport (not as soon as it peeks in from the bottom), and ends
+  // when the last card scrolls past. A spring smooths the raw scroll signal
+  // so frame changes feel fluid instead of stepping in lockstep with pixels.
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start start", "end start"]
   });
 
-  const frameIndex = useTransform(scrollYProgress, [0, 1], [0, FRAME_COUNT - 1]);
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 300, damping: 40, mass: 0.5 });
+  const frameIndex = useTransform(smoothProgress, [0, 1], [0, FRAME_COUNT - 1]);
 
   useEffect(() => {
     let cancelled = false;
