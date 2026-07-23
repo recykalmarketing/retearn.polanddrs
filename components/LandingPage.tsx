@@ -32,10 +32,25 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
     <>
       <Navbar locale={locale} copy={content.nav} />
       <main>
-        <section id="home" className="hero section-pad">
-          <div className="hero-orbit orbit-one" aria-hidden="true" />
-          <div className="hero-orbit orbit-two" aria-hidden="true" />
-          <div className="container hero-grid">
+        <section id="home" className="hero">
+          <Image
+            className="hero-photo"
+            src="/images/hero-store.png"
+            alt="Customer returning a container at a Retearn reverse vending machine inside a Polish convenience store"
+            fill
+            sizes="100vw"
+            priority
+          />
+          <div className="hero-scrim" aria-hidden="true" />
+          <motion.div
+            className="status-card"
+            initial={reduce ? false : { opacity: 0, y: -12 }}
+            animate={reduce ? undefined : { opacity: 1, y: [0, -8, 0] }}
+            transition={{ opacity: { duration: .6, delay: .4 }, y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: .4 } }}
+          >
+            <span className="online-dot" />Online<strong>42%</strong><small>{locale === "pl" ? "zapełnienia" : "capacity"}</small>
+          </motion.div>
+          <div className="container hero-content">
             <div className="hero-copy">
               <motion.p className="eyebrow" initial={reduce ? false : { opacity: 0, y: 12 }} animate={reduce ? undefined : { opacity: 1, y: 0 }} transition={{ duration: .5 }}>{content.hero.eyebrow}</motion.p>
               <motion.h1 initial={reduce ? false : { opacity: 0, y: 28 }} animate={reduce ? undefined : { opacity: 1, y: 0 }} transition={{ duration: .75, delay: .08, ease: [0.22, 1, 0.36, 1] }}>{content.hero.title}</motion.h1>
@@ -46,16 +61,10 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
               </motion.div>
               <motion.p className="microcopy" initial={reduce ? false : { opacity: 0 }} animate={reduce ? undefined : { opacity: 1 }} transition={{ delay: .5 }}>{content.hero.note}</motion.p>
             </div>
-
-            <motion.div className="hero-visual" initial={reduce ? false : { opacity: 0, x: 44 }} animate={reduce ? undefined : { opacity: 1, x: 0 }} transition={{ duration: .9, delay: .12, ease: [0.22, 1, 0.36, 1] }}>
-              <Image className="hero-background" src="/images/hero-store-placeholder.svg" alt="Placeholder for a Polish small retail shop scene" width={1600} height={1100} priority />
-              <motion.div className="rvm-wrap" animate={reduce ? undefined : { y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
-                <Image src="/images/rvm-product.png" alt="Retearn compact reverse vending machine" width={1086} height={1448} priority />
-              </motion.div>
-              <motion.div className="scan-ring" animate={reduce ? undefined : { rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }} aria-hidden="true" />
-              <div className="status-card"><span className="online-dot" />Online<strong>42%</strong><small>{locale === "pl" ? "zapełnienia" : "capacity"}</small></div>
-            </motion.div>
           </div>
+        </section>
+
+        <section className="proof-section">
           <div className="container proof-grid">
             {content.hero.proof.map((item, index) => (
               <Reveal key={item.value} delay={index * .07} className="proof-item"><strong>{item.value}</strong><span>{item.label}</span></Reveal>
