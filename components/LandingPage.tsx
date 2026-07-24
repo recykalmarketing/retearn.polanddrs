@@ -215,7 +215,16 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
                 );
               })}
             </div>
-            <Reveal className="retailer-visual"><Image src="/images/retailer-story-placeholder.svg" alt="Retailer before and after RVM visual placeholder" width={1400} height={900} /></Reveal>
+            <Reveal className="retailer-visual">
+              <div className="story-panel">
+                <span className="story-label">{locale === "pl" ? "BEZ RVM" : "WITHOUT RVM"}</span>
+                <Image src="/images/without-rvm.png" alt="Store aisle without a Retearn RVM" width={1448} height={1086} />
+              </div>
+              <div className="story-panel">
+                <span className="story-label story-label-after">{locale === "pl" ? "Z RETEARN RVM" : "WITH RETEARN RVM"}</span>
+                <Image src="/images/with-retearn-rvm.png" alt="Store aisle with a Retearn RVM installed next to the drinks fridges" width={1448} height={1086} />
+              </div>
+            </Reveal>
             <div className="support-strip">{content.retailers.strip.map(item => <span key={item}><CheckCircle2 size={17} />{item}</span>)}</div>
             <Reveal><a className="button button-primary" href="#meeting">{content.retailers.cta}<ArrowRight size={18} /></a></Reveal>
           </div>
