@@ -60,12 +60,36 @@ export function LandingPage({ locale, content }: { locale: Locale; content: Site
           />
           <div className="hero-scrim" aria-hidden="true" />
           <motion.div
-            className="status-card"
+            className="status-card status-card-1"
             initial={reduce ? false : { opacity: 0, y: -12 }}
             animate={reduce ? undefined : { opacity: 1, y: [0, -8, 0] }}
             transition={{ opacity: { duration: .6, delay: .4 }, y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: .4 } }}
           >
             <span className="online-dot" />Online<strong>42%</strong><small>{locale === "pl" ? "zapełnienia" : "capacity"}</small>
+          </motion.div>
+          <motion.div
+            className="status-card status-card-2"
+            initial={reduce ? false : { opacity: 0, y: -12 }}
+            animate={reduce ? undefined : { opacity: 1, y: [0, -8, 0] }}
+            transition={{ opacity: { duration: .6, delay: .6 }, y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: .6 } }}
+          >
+            <ScanLine size={16} />{locale === "pl" ? "Skan" : "Scan"}<strong>360°</strong><small>{locale === "pl" ? "odczyt QR" : "QR read"}</small>
+          </motion.div>
+          <motion.div
+            className="status-card status-card-3"
+            initial={reduce ? false : { opacity: 0, y: -12 }}
+            animate={reduce ? undefined : { opacity: 1, y: [0, -8, 0] }}
+            transition={{ opacity: { duration: .6, delay: .8 }, y: { duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: .8 } }}
+          >
+            <Receipt size={16} />{locale === "pl" ? "Kupon" : "Voucher"}<strong>{locale === "pl" ? "Od razu" : "Instant"}</strong><small>{locale === "pl" ? "po zwrocie" : "on return"}</small>
+          </motion.div>
+          <motion.div
+            className="status-card status-card-4"
+            initial={reduce ? false : { opacity: 0, y: -12 }}
+            animate={reduce ? undefined : { opacity: 1, y: [0, -8, 0] }}
+            transition={{ opacity: { duration: .6, delay: 1 }, y: { duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1 } }}
+          >
+            <Boxes size={16} />{locale === "pl" ? "Pojemność" : "Capacity"}<strong>200</strong><small>{locale === "pl" ? "opakowań" : "containers"}</small>
           </motion.div>
           <div className="container hero-content">
             <div className="hero-copy">
